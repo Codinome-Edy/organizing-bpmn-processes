@@ -1,0 +1,205 @@
+.entry::before {
+  --size: 30px;
+  --line: color-mix(in lch, rgb(85, 45, 45), transparent 0%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: radial-gradient(
+        4px 4px at 50% 50%,
+        var(--line) 2px,
+        transparent 2px var(--size)
+      )
+      50% 50% / var(--size) var(--size);
+  mask: linear-gradient(0deg, transparent 20%, rgb(255, 255, 255));
+  top: 0px;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+
+form {
+    margin: 0;
+    width: 100%;
+
+  }
+  
+  form a{
+    text-decoration: none;
+    color: white;
+    width: 100%;
+  }
+  
+  .entry{
+    width: 100vw;/*width=largura e 100vw=100% da tela*/
+    height: 100vh;/*height=altura*/
+    display: flex; /*faz com que as coisas fiquem lado a lado*/
+    justify-content: space-between; /*centraliza  as coisas no eixo X*/
+    align-items: center; /*centraliza as coisas no eixo Y*/
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+  
+  .left-container{
+    margin-left: 100px;
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column; 
+  }
+  
+  .left-container > h1{
+    font-size: 3vw;
+    color: #322A25
+  }
+  
+  .animated{
+    width: 25vw; 
+    margin-left: 8vw;
+  }
+  
+  .right-container{
+    width: 50vw; /*50%*/
+    height: 100vh; /*100%*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .right-container p{
+    color: white;
+  }
+  
+  .card-container{
+    width: 60%;/*60% da div*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px 35px;/*espaço entre a borda e o conteudo do site*/
+    background: #221b1b;
+    color: white;
+    border-radius: 20px; /*para a borda*/
+    box-shadow: 0px 10px 40px #00000056; /*sombra do card*/
+  }
+  
+  .card-container > h1 {
+    color: #d4d4d4;
+    margin:0;
+  }
+  
+  .textfield{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 10px 0px; /* primeiro valor esta ligado ao eixo Y, e o segundo ao eixo X*/
+  }
+  
+  .textfield > input {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    background: #322A25;
+    color: #f0ffffde;
+    font-size: 12pt; 
+    box-shadow: 0px 10px 40px #00000056;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  .textfield > label{
+    color: #f0ffffde;
+    margin-bottom: 10px;/*margem para baixo*/
+  }
+  
+  .textfield > input::placeholder{
+    color: #f0ffff94;
+  }
+  
+  .button-right-container{
+    width: 100%;
+    margin: 15px 0px;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    letter-spacing: 3px; 
+    color: #fffffff3;
+    background: #443227;
+    cursor: pointer;
+  }
+  
+  .viewStatus{
+    all: unset;
+    color: white;
+    cursor: pointer;
+  }
+  
+  @media only screen and (max-width:950px){
+
+    .entry {
+      flex-direction: column; /* Muda para coluna em telas menores */
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .left-container,
+    .right-container {
+      width: 100%; /* Ocupa 100% da largura */
+      margin-bottom: 20px; /* Espaçamento entre os containers */
+      height: auto; /* Altura ajustada pelo conteúdo */
+    }
+  
+    .animated {
+      width: 60vw; /* Ajusta a largura da animação */
+    }
+  
+    .card-container {
+      width: 85%;
+    }
+    
+    .card-login{
+      width: 85%;
+    }
+  }
+  
+  @media only screen and (max-width:600px){
+    .main-login{
+      flex-direction: column; /*para deixar as divs em colunas*/
+    }
+    
+    .left-login > h1{
+      display: none; /*tirar o h1*/
+    }
+    
+    .left-login{
+      width: 100%;
+      height: auto;
+    }
+    
+    .right-login{
+      width: 100%;
+      height: auto;
+    }
+    
+    .animated{
+      width: 50vw;
+    }
+    
+    .card-login{
+      width: 90%;
+    }
+
+    .card-container {
+      width: 90%;
+    }
+  }
