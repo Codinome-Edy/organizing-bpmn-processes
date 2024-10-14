@@ -1,3 +1,3 @@
-export const handleAdminArea = () => {
-    navigate("/admin");
-  };
+export const handleAdminArea = (navigate) => {
+  navigate("/administração");
+};

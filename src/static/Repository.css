@@ -85,7 +85,9 @@
 }
 
 .repository-processos-cards,
-.repository-cadeias-processos {
+.repository-cadeias-processos,
+.repository-inativos-list,
+.repository-interdepartamentais-processos {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
