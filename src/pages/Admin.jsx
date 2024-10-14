@@ -12,40 +12,64 @@ export default function Admin() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [permission, setPermission] = useState("");
+
+  const [editUserName, setEditUserName] = useState(""); // Nome atual do usuário a editar
+  const [newUserName, setNewUserName] = useState(""); // Novo nome
+  const [newPassword, setNewPassword] = useState(""); // Nova senha
+  const [newPermission, setNewPermission] = useState(""); // Nova permissão
+
+  const [userToDeactivate, setUserToDeactivate] = useState(""); // Nome do usuário a desativar
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Seleciona os elementos necessários
     const modal = document.getElementById("modal");
-    const openModalBtn = document.getElementById("openModalBtn");
-    const closeModalBtn = document.getElementById("closeModalBtn");
+    const editModal = document.getElementById("editModal");
+    const deactivateModal = document.getElementById("deactivateModal");
 
-    // Quando o botão é clicado, abre o modal
-    const open = () => {
+    const openModalBtn = document.getElementById("openModalBtn");
+    const openEditModalBtn = document.getElementById("openEditModalBtn");
+    const openDeactivateModalBtn = document.getElementById("openDeactivateModalBtn");
+
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const closeEditModalBtn = document.getElementById("closeEditModalBtn");
+    const closeDeactivateModalBtn = document.getElementById("closeDeactivateModalBtn");
+
+    const open = (modal) => {
       modal.style.display = "flex";
     };
 
-    // Quando o botão de fechar é clicado, fecha o modal
-    const close = () => {
+    const close = (modal) => {
       modal.style.display = "none";
     };
 
-    // Fecha o modal se o usuário clicar fora dele
     const windowClickHandler = (event) => {
-      if (event.target === modal) {
-        modal.style.display = "none";
+      if (event.target === modal || 
+          event.target === editModal || 
+          event.target === deactivateModal) {
+        event.target.style.display = "none";
       }
     };
 
-    // Adiciona os event listeners
-    openModalBtn.addEventListener("click", open);
-    closeModalBtn.addEventListener("click", close);
+    openModalBtn.addEventListener("click", () => open(modal));
+    openEditModalBtn.addEventListener("click", () => open(editModal));
+    openDeactivateModalBtn.addEventListener("click", () => open(deactivateModal));
+
+    closeModalBtn.addEventListener("click", () => close(modal));
+    closeEditModalBtn.addEventListener("click", () => close(editModal));
+    closeDeactivateModalBtn.addEventListener("click", () => close(deactivateModal));
+
     window.addEventListener("click", windowClickHandler);
 
     return () => {
-      // Remove os event listeners quando o componente é desmontado
-      openModalBtn.removeEventListener("click", open);
-      closeModalBtn.removeEventListener("click", close);
+      openModalBtn.removeEventListener("click", () => open(modal));
+      openEditModalBtn.removeEventListener("click", () => open(editModal));
+      openDeactivateModalBtn.removeEventListener("click", () => open(deactivateModal));
+
+      closeModalBtn.removeEventListener("click", () => close(modal));
+      closeEditModalBtn.removeEventListener("click", () => close(editModal));
+      closeDeactivateModalBtn.removeEventListener("click", () => close(deactivateModal));
+      
       window.removeEventListener("click", windowClickHandler);
     };
   }, [navigate]);
@@ -84,6 +108,36 @@ export default function Admin() {
     { nome: "Sair", handleClick: () => handleLogout(navigate) },
   ];
 
+  // Função para lidar com a edição do usuário
+  const handleEditUser = (e) => {
+    e.preventDefault(); // Previne o comportamento padrão do formulário
+
+    // Aqui você pode fazer a chamada à API para editar o usuário
+    console.log("Edição do usuário:", {
+      editUserName,
+      newUserName,
+      newPassword,
+      newPermission,
+    });
+
+    // Após a chamada da API, você pode redefinir os campos ou fechar o modal
+    setEditUserName("");
+    setNewUserName("");
+    setNewPassword("");
+    setNewPermission("");
+  };
+
+  // Função para lidar com a desativação do usuário
+  const handleDeactivateUser = (e) => {
+    e.preventDefault(); // Previne o comportamento padrão do formulário
+
+    // Aqui você pode fazer a chamada à API para desativar o usuário
+    console.log("Desativação do usuário:", userToDeactivate);
+
+    // Após a chamada da API, você pode resetar o campo ou fechar o modal
+    setUserToDeactivate("");
+  };
+
   return (
     <>
       <header className="header">
@@ -106,17 +160,20 @@ export default function Admin() {
             Cadastrar User
           </button>
           <button 
+            id="openEditModalBtn"
             className="repository-processos"
-            >
+          >
             Editar User
           </button>
           <button 
+            id="openDeactivateModalBtn"
             className="repository-processos"
-            >
+          >
             Desativar User
           </button>
         </div>
 
+        {/* Modal Cadastrar User */}
         <div id="modal" className="modal">
           <div className="modal-content">
             <span
@@ -160,6 +217,78 @@ export default function Admin() {
               <button type="submit" className="button-right-container">
                 CADASTRAR
               </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Modal Editar User */}
+        <div id="editModal" className="modal">
+          <div className="modal-content">
+            <span id="closeEditModalBtn" className="close">&times;</span>
+            <h1>Editar Usuário</h1>
+            <form onSubmit={handleEditUser}>
+              <div className="textfield">
+                <label htmlFor="nome">Nome Atual</label>
+                <input
+                  type="text"
+                  placeholder="Nome Atual"
+                  value={editUserName}
+                  onChange={(e) => setEditUserName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="textfield">
+                <label htmlFor="nomeEditado">Novo Nome</label>
+                <input
+                  type="text"
+                  placeholder="Novo Nome"
+                  value={newUserName}
+                  onChange={(e) => setNewUserName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="textfield">
+                <label htmlFor="senhaEditada">Nova Senha</label>
+                <input
+                  type="password"
+                  placeholder="Nova Senha"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="textfield">
+                <label htmlFor="permissionEditada">Nova Permissão</label>
+                <input
+                  type="text"
+                  placeholder="Nova Permissão"
+                  value={newPermission}
+                  onChange={(e) => setNewPermission(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="button-right-container">SALVAR</button>
+            </form>
+          </div>
+        </div>
+
+        {/* Modal Desativar User */}
+        <div id="deactivateModal" className="modal">
+          <div className="modal-content">
+            <span id="closeDeactivateModalBtn" className="close">&times;</span>
+            <h1>Desativar Usuário</h1>
+            <form onSubmit={handleDeactivateUser}>
+              <div className="textfield">
+                <label htmlFor="usuarioDesativar">Nome do Usuário</label>
+                <input
+                  type="text"
+                  placeholder="Nome do Usuário"
+                  value={userToDeactivate}
+                  onChange={(e) => setUserToDeactivate(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="button-right-container">DESATIVAR</button>
             </form>
           </div>
         </div>
